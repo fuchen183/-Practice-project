@@ -1,0 +1,41 @@
+#include <stdio.h>
+#include <stdlib.h>
+
+int n=0;//加满油可行驶的距离
+int k=0;//加油站数量
+int cw;//当前行驶的距离
+int a[20];//加油站之间的距离
+int p=0;//途中加油次数
+
+void Car()
+{
+    for (int m=0;m<k+1;m++){
+        cw+=a[m];
+        if (cw>n)
+        {
+            p++;
+            m--;
+            cw=0;//加油
+            printf("在第%d个加油站加油\n",m+1);
+        }
+        else ;
+    }
+}
+
+void main()
+{
+    printf("请输入汽车加满油可行驶的距离：\n");
+    scanf("%d",&n);
+    printf("请输入加油站的数量：\n");
+    scanf("%d",&k);
+    //a=new int[k];
+    printf("请依次输入每个加油站的距离：\n");
+    for (int i=0;i<=k;i++) scanf("%d",&a[i]); //存入加油站距离
+    for (int i=0;i<=k;i++)
+    {
+        if (a[i]>n)
+            printf("加油站的间隔距离有误，加满油的汽车不能行驶到。\n");
+    }
+    Car();
+    printf("汽车在途中一共加油%d次\n",p);
+}
