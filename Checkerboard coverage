@@ -1,0 +1,83 @@
+#include <stdio.h>
+#include <stdlib.h>
+#include <math.h>
+
+int tile=1;
+int size=0;
+int board[8][8];
+
+void chessBoard(int tr,int tc,int dr,int dc,int size)
+{
+    if (size==1)return;
+    int t=tile++;
+    int s=size/2;
+    if (dr < tr + s && dc < tc +s)
+    {
+        chessBoard(tr,tc,dr,dc,s);
+    }
+    else
+    {
+        board[tr+s-1][tc+s-1] = t;
+        chessBoard(tr,tc,tr+s-1,tc+s-1,s);
+    }
+
+    if (dr < tr + s && dc >= tc + s )
+    {
+        chessBoard(tr,tc+s,dr,dc,s);
+    }
+    else
+    {
+        board[tr+s-1][tc+s] = t;
+        chessBoard(tr,tc+s,tr+s-1,tc+s,s);
+    }
+
+    if (dr >= tr + s && dc < tc + s)
+    {
+        chessBoard(tr+s,tc,dr,dc,s);
+    }
+    else
+    {
+        board[tr+s][tc+s-1] = t;
+        chessBoard(tr+s,tc,tr+s,tc+s-1,s);
+    }
+
+    if (dr >= tr + s && dc >= tc + s)
+    {
+        chessBoard(tr+s,tc+s,dr,dc,s);
+    }
+    else
+    {
+        board[tr+s][tc+s] = t;
+        chessBoard(tr+s,tc+s,tr+s,tc+s,s);
+    }
+}
+void main()
+{
+    int dr=0;
+    int dc=0;
+    int si=0;
+    printf("请输入棋盘大小k（2^k 最大为6）\r\n");
+    scanf("%d",&si);
+    printf("请输入特殊方格的行\r\n");
+    scanf("%d",&dr);
+    printf("请输入特殊方格的列\r\n");
+    scanf("%d",&dc);
+    if(si>=1&&si<=6)
+    {
+
+        size=pow(2,si);
+        printf("size=%d",size);
+        chessBoard(0,0,dr,dc,size);
+        printf("给定棋盘可以放入%d个L型骨牌。\r\n",--tile);
+        for(int i=0;i<8;i++)
+        {
+            for(int m=0;m<8;m++)
+            {
+                printf("%3d",board[i][m]);
+            }
+            printf("\r\n");
+        }
+    }
+    else printf("输入数据有误\r\n");
+
+}
