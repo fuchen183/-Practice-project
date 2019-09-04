@@ -1,0 +1,74 @@
+#include <stdio.h>
+#include <string.h>
+#include <stdlib.h>
+#include <stdint.h>
+
+int a[20];//机器A处理各作业的时间
+int b[20];//机器B处理各作业的时间
+int n;
+int i=0,j=0;
+
+void read() {
+    printf("请输入任务数量：");
+    scanf("%d",&n);
+    printf("请输入机器A处理每个任务的时间：");
+    //记录A机器处理任务的时间
+    for(int z = 0; z < n; z++) {
+        scanf("%d",&a[z]);
+
+    }
+    printf("请输入机器B处理每个任务的时间：");
+    //记录B机器处理任务的时间
+    for(int z = 0; z < n; z++) {
+        scanf("%d",&b[z]);
+    }
+}
+int max(int x, int y) {
+    return x > y ? x : y;
+}
+
+int schedule() {
+    for(int z=0;z<n;z++)
+    {
+        if(a[z]<=b[z])
+        {
+            if (z==0)
+            {
+                i+=a[z];
+            }
+            else
+            {
+                if (b[z]-a[z]>=i-j)
+                {
+                    i+=a[z];
+                }
+                else j+=b[z];
+            }
+
+        }
+        else
+        {
+            if (z==0)
+            {
+                j+=b[z];
+            }
+            else
+            {
+                if (a[z]-b[z]>=j-i)
+                {
+                    j+=b[z];
+                }
+                else i+=a[z];
+            }
+
+        }
+    }
+    printf("机器A处理所有任务的时间：%d\n",i);
+    printf("机器B处理所有任务的时间：%d\n",j);
+    return max(i,j);
+}
+
+void main() {
+    read();
+    printf("总的最少处理时间为：%d\n",schedule());
+}
