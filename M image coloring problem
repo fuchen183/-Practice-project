@@ -1,0 +1,75 @@
+#include <stdio.h>
+#include <stdlib.h>
+#include <stdbool.h>
+int n; //图的顶点
+int m; //可用颜色数
+bool a[10][10]={0}; //图的邻接矩阵
+int x[10]; //当前解
+int sum; //当前已找到的可m着色方案
+int j,k;
+
+//寻找可着色方案的数量
+int Coloring (int mm)
+{
+    m=mm;
+    sum=0;
+    backtrack(1);
+    return sum;
+}
+
+//判断颜色是否可用
+bool realy(int k)
+{
+    for(int j=1;j<=n;j++)
+        if(a[k][j]&&(x[j]==x[k]))return false;
+    return true;
+}
+
+void backtrack(int t)
+{
+    if(t>n)
+    {
+        sum++;
+        for(int i=1;i<=n;i++)
+        {
+            printf("%d ",x[i]);
+        }
+        printf("\n");
+    }
+    else
+    {
+        for(int i=1;i<=m;i++)
+        {
+            x[t]=i;
+            if(realy(t)) backtrack(t+1);
+            x[t]=0;
+        }
+    }
+}
+
+void main()
+{
+    printf("请输入图的顶点数\n");
+    scanf("%d",&n);
+    printf("请输入可用颜色数\n");
+    scanf("%d",&m);
+    printf("请输入顶点的相邻关系（0 0时为结束）\n");
+    //创建邻接矩阵
+    //scanf("%d %d",&j,&k)!=EOF j k的值被正确读入循环继续
+    while(scanf("%d %d",&j,&k)!=EOF&&j!=0&&k!=0){
+        a[j][k]=1;
+        a[k][j]=1;
+    }
+    printf("图的邻接矩阵为：\n");
+    for (int u=1;u<=n;u++)
+    {
+        for (int o=1;o<=n;o++)
+        {
+            printf("%d ",a[u][o]);
+        }
+        printf("\n");
+    }
+    printf("涂色方案：\n");
+    int su = Coloring(m);
+    printf("一共有%d种着色方案",su);
+}
